@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"github.com/rotisserie/eris"
+	"github.com/itsLeonB/ungerr"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -12,7 +12,7 @@ type HashServiceBcrypt struct {
 func (hb *HashServiceBcrypt) Hash(val string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(val), hb.Cost)
 	if err != nil {
-		return "", eris.Wrap(err, "error hashing value")
+		return "", ungerr.Wrap(err, "error hashing value")
 	}
 
 	return string(hash), nil
@@ -25,7 +25,7 @@ func (hb *HashServiceBcrypt) CheckHash(hash, val string) (bool, error) {
 			return false, nil
 		}
 
-		return false, eris.Wrap(err, "error checking hash")
+		return false, ungerr.Wrap(err, "error checking hash")
 	}
 
 	return true, nil

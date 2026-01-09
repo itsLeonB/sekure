@@ -10,7 +10,6 @@ import (
 	"github.com/itsLeonB/sekure/internal"
 	"github.com/itsLeonB/sekure/lib"
 	"github.com/itsLeonB/ungerr"
-	"github.com/rotisserie/eris"
 )
 
 // JWTClaims represents the claims structure for JWT tokens.
@@ -63,7 +62,7 @@ func (j *jwtServiceHS256) CreateToken(data map[string]any) (string, error) {
 
 	signed, err := token.SignedString([]byte(j.secretKey))
 	if err != nil {
-		return "", eris.Wrap(err, "error signing token")
+		return "", ungerr.Wrap(err, "error signing token")
 	}
 
 	return signed, nil
@@ -90,7 +89,7 @@ func (j *jwtServiceHS256) VerifyToken(tokenstr string) (JWTClaims, error) {
 			return claims, ungerr.UnauthorizedError(lib.MsgAuthExpiredToken)
 		}
 
-		return claims, eris.Wrap(err, "error parsing token")
+		return claims, ungerr.Wrap(err, "error parsing token")
 	}
 
 	return claims, nil
